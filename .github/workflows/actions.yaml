@@ -1,0 +1,23 @@
+name: ETL Pipeline
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run at midnight every day
+
+jobs:
+  etl:
+    runs-on: ubuntu-latest # Use the latest version of Ubuntu as OS
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2 # Checkout the repository to the runner
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2 # Set up Python 3.9
+        with:
+          python-version: 3.9
+      
+      - name: Extract data
+        run: python3 src/extract.py # Run the extract.py script
+      - name: Transform data
+        run: python3 src/transform.py # Run the transform.py script
+      - name: Load data
+        run: python3 src/load.py # Run the load.py script
